@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ChatHub-Login</title>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+<!-- Custom styles for this template -->
+<link href="starter-template.css" rel="stylesheet">
+<style media="screen">
+    body{
+    background-image: url(images/crop.jpg);
+    background-size: cover;
+}
+.style{
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px black  ;
+    width: 400px;
+    height: 330px;
+    margin-top: 200px;
+    background-image: linear-gradient(#bdc3c7,#2c3e50);
+}
+.style h1{
+    text-align: center;
+}
+
+
+@media only screen and (min-width: 920px) {
+    body{
+        background-image: url("https://makcreates.com/wp-content/uploads/2018/03/black-background-mak-creates-web-design-services-1500-2500.jpg");
+        background-size: cover;
+    }
+    .style{
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px 0px black  ;
+        width: 400px;
+        height: 330px;
+        margin-top: 200px;
+        background-image: linear-gradient(#bdc3c7,#2c3e50);
+    }
+    .style h1{
+        text-align: center;
+    }
+    h4{ font-size:10px;
+        margin-left: 510px;
+        margin-top: 100px;
+        color: white;
+    }
+}
+</style>
+
+
+</head>
+<body>
+<div class="container style">
+        <h1>Chat Hub</h1><br>
+     <form action="/chat">
+     <div>
+        <label>Enter your username:</label>
+        <input type="text" name="username" class="form-control">
+     </div><br>
+     <div>
+        <label>Enter room id:</label>
+        <input type="text" name="room" class="form-control">
+     </div><br>
+     <button type="submit" class="btn btn-primary btn-block">Submit</button>
+     </form>
+</div>
+<h4><strong>CREATED BY PIYUSH JOSHI AND PRAFUL KUMAR</strong></h4>
+</body>
+</html>

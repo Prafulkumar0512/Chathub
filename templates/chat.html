@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chathub-Room</title>
+    <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+<!-- Custom styles for this template -->
+<link href="starter-template.css" rel="stylesheet">
+<style media="screen">
+    body{
+    background-image:url("https://fsb.zobj.net/crop.php?r=zrBOjedXJWr2eOsSSkC3vqXvqFrKAB9yKTHAL6AsDvkKKd56RxAE-z21ZpxzJxd_-AoubNsdooLJ2gJihMUBLVYwfegVJLFeEbQ14e_B5yjJ_HZcNhqmVAWXqSrR28mk4t30SNAVxyJdEeFPbFW1ua1fKnPnxgfWFSrLyDWxC4spH_GM9Ze1Vjl7qiA") ;
+    background-size: cover;
+}
+.container h1{
+text-align: center;
+color: white;
+}
+#messages{
+width:350px ;
+height: 500px;
+overflow: auto;
+border-radius: 10px;
+box-shadow: 0px 0px 10px 0px black;
+background-color: #d3d8e3;
+margin-left: 70px;
+
+}
+#message_input{
+margin-left: 70px;
+width: 250px;
+height: 40px;
+border-radius: 5px;
+margin-top: 10px;
+}
+.btn{
+width:100px ;
+height: 40px;
+}
+@media only screen and (min-width:920px){
+    body{
+        background-image:url("https://makcreates.com/wp-content/uploads/2018/03/black-background-mak-creates-web-design-services-1500-2500.jpg") ;
+        background-size: cover;
+    }
+.container h1{
+    text-align: center;
+    color: white;
+}
+#messages{
+    width:600px ;
+    height: 600px;
+    overflow: auto;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px black;
+    background-color: #d3d8e3;
+    margin-left: 270px;
+
+}
+#message_input{
+    margin-left: 270px;
+    width: 500px;
+    height: 40px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+.btn{
+    width:100px ;
+    height: 40px;
+}
+}
+
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>Welcome to chat room {{ room }}</h1>
+
+<div id="messages"></div>
+
+<form id="message_input_form">
+    <input type="text" id="message_input" placeholder="Enter your message here">
+    <button type="submit" class="btn btn-primary">Send</button>
+</form>
+</div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+<script>
+    const socket = io.connect("http://127.0.0.1:5000");
+
+    socket.on('connect', function () {
+        socket.emit('join_room', {
+            username: "{{ username }}",
+            room: "{{ room }}"
+        });
+
+        let message_input = document.getElementById('message_input');
+
+        document.getElementById('message_input_form').onsubmit = function (e) {
+            e.preventDefault();
+            let message = message_input.value.trim();
+            if (message.length) {
+                socket.emit('send_message', {
+                    username: "{{ username }}",
+                    room: "{{ room }}",
+                    message: message
+                })
+            }
+            message_input.value = '';
+            message_input.focus();
+        }
+    });
+
+    window.onbeforeunload = function () {
+        socket.emit('leave_room', {
+            username: "{{ username }}",
+            room: "{{ room }}"
+        })
+    };
+
+    socket.on('receive_message', function (data) {
+        console.log(data);
+        const newNode = document.createElement('div');
+        newNode.innerHTML = `<b>${data.username}:&nbsp;</b> ${data.message}`;
+        document.getElementById('messages').appendChild(newNode);
+    });
+
+    socket.on('join_room_announcement', function (data) {
+        console.log(data);
+        if (data.username !== "{{ username }}") {
+            const newNode = document.createElement('div');
+            newNode.innerHTML = `<b>${data.username}</b> has joined the room`;
+            document.getElementById('messages').appendChild(newNode);
+        }
+    });
+
+    socket.on('leave_room_announcement', function (data) {
+        console.log(data);
+        const newNode = document.createElement('div');
+        newNode.innerHTML = `<b>${data.username}</b> has left the room`;
+        document.getElementById('messages').appendChild(newNode);
+    });
+</script>
+</html>
